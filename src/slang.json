@@ -1,0 +1,720 @@
+{
+  "slang": [
+    {
+      "term": "lit",
+      "translation": "really fun or exciting",
+      "context": "Positive, enthusiastic",
+      "example": "That party was lit!"
+    },
+    {
+      "term": "bounced",
+      "translation": "left or departed",
+      "context": "Casual, neutral",
+      "example": "We bounced after the movie."
+    },
+    {
+      "term": "slay",
+      "translation": "do something really well or look amazing",
+      "context": "Positive, confident",
+      "example": "You're slaying that outfit!"
+    },
+    {
+      "term": "cap",
+      "translation": "lie or exaggeration",
+      "context": "Negative, skeptical",
+      "example": "No cap, that's the truth."
+    },
+    {
+      "term": "bet",
+      "translation": "okay, sure, or agreement",
+      "context": "Positive, casual agreement",
+      "example": "Bet, I'll be there."
+    },
+    {
+      "term": "fr fr",
+      "translation": "for real, seriously",
+      "context": "Emphasizing truth",
+      "example": "Fr fr, that was amazing."
+    },
+    {
+      "term": "ngl",
+      "translation": "not gonna lie",
+      "context": "Honest admission",
+      "example": "Ngl, that was pretty cool."
+    },
+    {
+      "term": "lowkey",
+      "translation": "secretly or quietly",
+      "context": "Subtle, understated",
+      "example": "I lowkey love that song."
+    },
+    {
+      "term": "highkey",
+      "translation": "obviously or very much",
+      "context": "Emphasizing something obvious",
+      "example": "I highkey need coffee right now."
+    },
+    {
+      "term": "sus",
+      "translation": "suspicious or questionable",
+      "context": "Warning, skeptical",
+      "example": "That seems sus to me."
+    },
+    {
+      "term": "vibe",
+      "translation": "feeling or atmosphere",
+      "context": "Casual, descriptive",
+      "example": "I'm getting good vibes from this place."
+    },
+    {
+      "term": "mood",
+      "translation": "relatable feeling or situation",
+      "context": "Casual agreement",
+      "example": "Same mood, I'm tired too."
+    },
+    {
+      "term": "flex",
+      "translation": "show off or brag",
+      "context": "Confident, sometimes negative",
+      "example": "Stop flexing your new phone."
+    },
+    {
+      "term": "salty",
+      "translation": "bitter or upset",
+      "context": "Negative, frustrated",
+      "example": "Why are you so salty about it?"
+    },
+    {
+      "term": "woke",
+      "translation": "aware of social issues",
+      "context": "Positive, socially conscious",
+      "example": "She's really woke about climate change."
+    },
+    {
+      "term": "rizz",
+      "translation": "charisma or charm, especially with romantic appeal",
+      "context": "Positive, confident",
+      "example": "He's got mad rizz with the ladies."
+    },
+    {
+      "term": "pulled",
+      "translation": "successfully attracted or got someone's attention",
+      "context": "Positive, achievement",
+      "example": "She pulled three numbers at the party."
+    },
+    {
+      "term": "mad",
+      "translation": "very or extremely",
+      "context": "Emphasizing intensity",
+      "example": "That was mad cool!"
+    },
+    {
+      "term": "bussin",
+      "translation": "really good or excellent",
+      "context": "Positive, enthusiastic",
+      "example": "This food is bussin!"
+    },
+    {
+      "term": "tho",
+      "translation": "though or however",
+      "context": "Casual transition",
+      "example": "It was fun tho."
+    },
+    {
+      "term": "wanna",
+      "translation": "want to",
+      "context": "Casual, informal",
+      "example": "I wanna go home."
+    },
+    {
+      "term": "gonna",
+      "translation": "going to",
+      "context": "Casual, informal",
+      "example": "I'm gonna be late."
+    },
+    {
+      "term": "numbers",
+      "translation": "phone numbers or contact information",
+      "context": "Casual, social",
+      "example": "I got her number at the party."
+    },
+    {
+      "term": "mall",
+      "translation": "shopping center",
+      "context": "Neutral, location",
+      "example": "Let's go to the mall."
+    },
+    {
+      "term": "cringe",
+      "translation": "embarrassing or awkward",
+      "context": "Negative, uncomfortable",
+      "example": "That joke was so cringe."
+    },
+    {
+      "term": "bounce",
+      "translation": "leave or depart",
+      "context": "Casual, neutral",
+      "example": "Let's bounce from this party."
+    },
+    {
+      "term": "dipped",
+      "translation": "left or departed",
+      "context": "Casual, neutral",
+      "example": "We dipped when things got weird."
+    },
+    {
+      "term": "ghosted",
+      "translation": "suddenly stopped responding or disappeared",
+      "context": "Negative, frustrating",
+      "example": "She ghosted me after our date."
+    },
+    {
+      "term": "vibing",
+      "translation": "getting along well or having a good connection",
+      "context": "Positive, casual",
+      "example": "We were vibing at the party."
+    },
+    {
+      "term": "tea",
+      "translation": "gossip or information",
+      "context": "Casual, social",
+      "example": "What's the tea on that new student?"
+    },
+    {
+      "term": "sis",
+      "translation": "friend or sister (term of endearment)",
+      "context": "Casual, friendly",
+      "example": "Hey sis, how are you doing?"
+    },
+    {
+      "term": "slay",
+      "translation": "do something really well or look amazing",
+      "context": "Positive, excited",
+      "example": "You slayed that presentation!"
+    },
+    {
+      "term": "periodt",
+      "translation": "end of discussion, that's it",
+      "context": "Emphatic, final",
+      "example": "You're wrong, periodt."
+    },
+    {
+      "term": "no cap",
+      "translation": "no lie, seriously",
+      "context": "Emphatic, honest",
+      "example": "That movie was amazing, no cap."
+    },
+    {
+      "term": "fr fr",
+      "translation": "for real, seriously",
+      "context": "Emphatic, honest",
+      "example": "I'm tired, fr fr."
+    },
+    {
+      "term": "ngl",
+      "translation": "not gonna lie",
+      "context": "Honest, casual",
+      "example": "Ngl, that was pretty cool."
+    },
+    {
+      "term": "lowkey",
+      "translation": "secretly or quietly",
+      "context": "Casual, subtle",
+      "example": "I lowkey like that song."
+    },
+    {
+      "term": "highkey",
+      "translation": "obviously or very much",
+      "context": "Emphatic, obvious",
+      "example": "I highkey love this show."
+    },
+    {
+      "term": "same",
+      "translation": "I feel the same way",
+      "context": "Agreement, relatable",
+      "example": "Same, I'm so tired."
+    },
+    {
+      "term": "mood",
+      "translation": "that's exactly how I feel",
+      "context": "Agreement, relatable",
+      "example": "Mood, I need coffee right now."
+    },
+    {
+      "term": "vibe check",
+      "translation": "checking if someone is cool or fits in",
+      "context": "Social, casual",
+      "example": "Let's do a vibe check on the new kid."
+    },
+    {
+      "term": "stan",
+      "translation": "big fan or supporter",
+      "context": "Fandom, positive",
+      "example": "I stan this artist so much."
+    },
+    {
+      "term": "simp",
+      "translation": "someone who does too much for someone they like",
+      "context": "Teasing, social",
+      "example": "Stop simping over them."
+    },
+    {
+      "term": "flex",
+      "translation": "show off or brag",
+      "context": "Casual, social",
+      "example": "Don't flex your new phone."
+    },
+    {
+      "term": "salty",
+      "translation": "bitter or upset",
+      "context": "Negative, emotional",
+      "example": "Why are you so salty?"
+    },
+    {
+      "term": "woke",
+      "translation": "aware of social issues",
+      "context": "Social awareness, positive",
+      "example": "That's a really woke perspective."
+    },
+    {
+      "term": "basic",
+      "translation": "ordinary or mainstream",
+      "context": "Teasing, social",
+      "example": "That's so basic."
+    },
+    {
+      "term": "extra",
+      "translation": "over the top or dramatic",
+      "context": "Teasing, social",
+      "example": "You're being extra right now."
+    },
+    {
+      "term": "lit",
+      "translation": "amazing or exciting",
+      "context": "Positive, excited",
+      "example": "This party is lit!"
+    },
+    {
+      "term": "fire",
+      "translation": "really good or amazing",
+      "context": "Positive, excited",
+      "example": "That song is fire!"
+    },
+    {
+      "term": "bussin",
+      "translation": "really good or amazing",
+      "context": "Positive, excited",
+      "example": "This food is bussin!"
+    },
+    {
+      "term": "cap",
+      "translation": "lie or exaggeration",
+      "context": "Negative, dishonest",
+      "example": "That's cap, you're lying."
+    },
+    {
+      "term": "bet",
+      "translation": "okay, sure, or agreement",
+      "context": "Casual, agreement",
+      "example": "Bet, I'll see you there."
+    },
+    {
+      "term": "ight",
+      "translation": "alright or okay",
+      "context": "Casual, agreement",
+      "example": "Ight, let's go."
+    },
+    {
+      "term": "ight bet",
+      "translation": "alright, sure, or agreement",
+      "context": "Casual, agreement",
+      "example": "Ight bet, I'm down."
+    },
+    {
+      "term": "down",
+      "translation": "willing or ready",
+      "context": "Casual, agreement",
+      "example": "I'm down to go to the movies."
+    },
+    {
+      "term": "up",
+      "translation": "willing or ready",
+      "context": "Casual, agreement",
+      "example": "I'm up for anything."
+    },
+    {
+      "term": "say less",
+      "translation": "I understand, no need to explain more",
+      "context": "Casual, agreement",
+      "example": "Say less, I'll be there."
+    },
+    {
+      "term": "facts",
+      "translation": "that's true or I agree",
+      "context": "Agreement, emphasis",
+      "example": "Facts, you're absolutely right."
+    },
+    {
+      "term": "real talk",
+      "translation": "seriously or honestly",
+      "context": "Honest, emphasis",
+      "example": "Real talk, that was amazing."
+    },
+    {
+      "term": "deadass",
+      "translation": "seriously or honestly",
+      "context": "Honest, emphasis",
+      "example": "Deadass, I'm not joking."
+    },
+    {
+      "term": "fr tho",
+      "translation": "for real though, seriously",
+      "context": "Honest, emphasis",
+      "example": "Fr tho, that was crazy."
+    },
+    {
+      "term": "ngl tho",
+      "translation": "not gonna lie though, honestly",
+      "context": "Honest, emphasis",
+      "example": "Ngl tho, that was pretty good."
+    },
+    {
+      "term": "lowkey tho",
+      "translation": "secretly though, honestly",
+      "context": "Honest, subtle",
+      "example": "Lowkey tho, I kind of like it."
+    },
+    {
+      "term": "highkey tho",
+      "translation": "obviously though, very much",
+      "context": "Emphatic, obvious",
+      "example": "Highkey tho, this is amazing."
+    },
+    {
+      "term": "same tho",
+      "translation": "I feel the same way though",
+      "context": "Agreement, relatable",
+      "example": "Same tho, I'm so tired."
+    },
+    {
+      "term": "mood tho",
+      "translation": "that's exactly how I feel though",
+      "context": "Agreement, relatable",
+      "example": "Mood tho, I need coffee right now."
+    },
+    {
+      "term": "mid",
+      "translation": "average, mediocre, or not very good",
+      "context": "Negative, unimpressed",
+      "example": "That movie was mid, nothing special."
+    },
+    
+    {
+        "term": "rizz",
+        "translation": "Charm or flirting ability",
+        "context": "Compliment, social",
+        "example": "He’s got mad rizz."
+      },
+      {
+        "term": "no cap",
+        "translation": "I'm serious / not lying",
+        "context": "Honesty, emphasis",
+        "example": "That movie was the best, no cap."
+      },
+      {
+        "term": "sus",
+        "translation": "Suspicious or shady",
+        "context": "Skepticism, distrust",
+        "example": "That deal sounds sus."
+      },
+      {
+        "term": "mid",
+        "translation": "Mediocre, average, not great",
+        "context": "Negative opinion",
+        "example": "The concert was mid."
+      },
+      {
+        "term": "salty",
+        "translation": "Annoyed, bitter, upset",
+        "context": "Frustration",
+        "example": "He got salty after losing."
+      },
+      {
+        "term": "lit",
+        "translation": "Exciting or really fun",
+        "context": "Positive, social",
+        "example": "That party was lit."
+      },
+      {
+        "term": "fit",
+        "translation": "Outfit or clothing",
+        "context": "Fashion",
+        "example": "That fit is fire."
+      },
+      {
+        "term": "fire",
+        "translation": "Amazing or excellent",
+        "context": "Positive reaction",
+        "example": "This song is fire."
+      },
+      {
+        "term": "cringe",
+        "translation": "Awkward or embarrassing",
+        "context": "Negative, internet",
+        "example": "That TikTok was cringe."
+      },
+      {
+        "term": "ghosted",
+        "translation": "Ignored or stopped responding",
+        "context": "Relationship, communication",
+        "example": "She ghosted me after we hung out."
+      },
+      {
+        "term": "lowkey",
+        "translation": "Kind of / secretly / quietly",
+        "context": "Subtle, private",
+        "example": "I lowkey love that song."
+      },
+      {
+        "term": "highkey",
+        "translation": "Openly / strongly",
+        "context": "Emphasis",
+        "example": "I highkey want pizza right now."
+      },
+      {
+        "term": "stan",
+        "translation": "Extreme fan or supporter",
+        "context": "Positive, fandom",
+        "example": "I stan that singer."
+      },
+      {
+        "term": "flex",
+        "translation": "Show off",
+        "context": "Bragging",
+        "example": "He loves to flex his car."
+      },
+      {
+        "term": "bet",
+        "translation": "Okay / agreed / watch me do it",
+        "context": "Agreement, challenge",
+        "example": "You think I won’t? Bet."
+      },
+      {
+        "term": "cap",
+        "translation": "Lie, not true",
+        "context": "Disbelief",
+        "example": "That’s cap, no way it happened."
+      },
+      {
+        "term": "slaps",
+        "translation": "Really good (usually music)",
+        "context": "Compliment",
+        "example": "This song slaps."
+      },
+      {
+        "term": "vibe",
+        "translation": "Mood, feeling, atmosphere",
+        "context": "Social, emotional",
+        "example": "This café has a nice vibe."
+      },
+      {
+        "term": "extra",
+        "translation": "Over the top, dramatic",
+        "context": "Negative or playful",
+        "example": "She’s so extra about her birthday."
+      },
+      {
+        "term": "bruh",
+        "translation": "Expression of disbelief or annoyance",
+        "context": "Casual reaction",
+        "example": "Bruh, are you serious?"
+      },
+      {
+        "term": "GOAT",
+        "translation": "Greatest of all time",
+        "context": "Compliment, praise",
+        "example": "MJ is the GOAT."
+      },
+      {
+        "term": "AF",
+        "translation": "Very / extremely",
+        "context": "Emphasis",
+        "example": "I’m tired AF."
+      },
+      {
+        "term": "savage",
+        "translation": "Bold, unapologetic, ruthless",
+        "context": "Compliment or insult",
+        "example": "She made a savage comeback."
+      },
+      {
+        "term": "shook",
+        "translation": "Surprised or shocked",
+        "context": "Reaction",
+        "example": "I was shook after that ending."
+      },
+      {
+        "term": "thirsty",
+        "translation": "Desperate for attention",
+        "context": "Insult, playful",
+        "example": "He’s so thirsty posting that selfie."
+      },
+      {
+        "term": "tea",
+        "translation": "Gossip or news",
+        "context": "Social, casual",
+        "example": "Spill the tea!"
+      },
+      {
+        "term": "woke",
+        "translation": "Socially aware",
+        "context": "Politics, awareness",
+        "example": "He’s very woke about issues."
+      },
+      {
+        "term": "yeet",
+        "translation": "Throw with force / excitement shout",
+        "context": "Playful, energetic",
+        "example": "He yeeted the ball across the field."
+      },
+      {
+        "term": "fam",
+        "translation": "Close friends or family",
+        "context": "Affection, casual",
+        "example": "What’s up, fam?"
+      },
+      {
+        "term": "bussin",
+        "translation": "Really good (usually food)",
+        "context": "Compliment",
+        "example": "This pizza is bussin."
+      },
+      {
+        "term": "simp",
+        "translation": "Someone who tries too hard for someone they like",
+        "context": "Insult, playful",
+        "example": "He’s simping for her."
+      },
+      {
+        "term": "drip",
+        "translation": "Cool style or outfit",
+        "context": "Fashion compliment",
+        "example": "That jacket has drip."
+      },
+      {
+        "term": "clap back",
+        "translation": "Strong comeback or response",
+        "context": "Defense, argument",
+        "example": "She clapped back at the hater."
+      },
+      {
+        "term": "on fleek",
+        "translation": "Perfectly done",
+        "context": "Compliment",
+        "example": "Her makeup is on fleek."
+      },
+      {
+        "term": "snatched",
+        "translation": "Looking great, fashionable",
+        "context": "Compliment",
+        "example": "Her outfit is snatched."
+      },
+      {
+        "term": "receipts",
+        "translation": "Proof or evidence",
+        "context": "Calling out, internet",
+        "example": "Show the receipts!"
+      },
+      {
+        "term": "L",
+        "translation": "Loss, failure",
+        "context": "Negative",
+        "example": "He took an L in that game."
+      },
+      {
+        "term": "W",
+        "translation": "Win, success",
+        "context": "Positive",
+        "example": "That was a big W for the team."
+      },
+      {
+        "term": "ratioed",
+        "translation": "When replies outnumber likes (online insult)",
+        "context": "Internet culture",
+        "example": "He got ratioed on Twitter."
+      },
+      {
+        "term": "main character",
+        "translation": "Person acting like the star of the moment",
+        "context": "Playful, social",
+        "example": "She was the main character at the party."
+      },
+      {
+        "term": "touch grass",
+        "translation": "Go outside, take a break from online",
+        "context": "Insult, playful",
+        "example": "You need to touch grass, bro."
+      },
+      {
+        "term": "vibing",
+        "translation": "Enjoying the moment",
+        "context": "Positive, casual",
+        "example": "We’re just vibing to music."
+      },
+      {
+        "term": "pressed",
+        "translation": "Annoyed, upset",
+        "context": "Negative, casual",
+        "example": "He’s pressed about that loss."
+      },
+      {
+        "term": "catch hands",
+        "translation": "Get into a fight",
+        "context": "Aggressive, warning",
+        "example": "Keep talking, you’ll catch hands."
+      },
+      {
+        "term": "finna",
+        "translation": "Going to / about to",
+        "context": "Casual, slang",
+        "example": "I’m finna eat."
+      },
+      {
+        "term": "sus AF",
+        "translation": "Very suspicious",
+        "context": "Negative, playful",
+        "example": "That guy is sus AF."
+      },
+      {
+        "term": "capper",
+        "translation": "Someone who lies",
+        "context": "Insult",
+        "example": "Don’t listen to him, he’s a capper."
+      },
+      {
+        "term": "dead",
+        "translation": "Something is so funny you 'died' laughing",
+        "context": "Humor, casual",
+        "example": "That joke had me dead."
+      },
+      {
+        "term": "periodt",
+        "translation": "Final word, end of discussion",
+        "context": "Emphasis, strong opinion",
+        "example": "That’s the best show, periodt."
+      },
+      {
+        "term": "slay",
+        "translation": "Do something amazingly / look great",
+        "context": "Compliment",
+        "example": "She slayed that performance."
+      },
+      {
+        "term": "big yikes",
+        "translation": "Very awkward, embarrassing",
+        "context": "Negative reaction",
+        "example": "That was a big yikes moment."
+      }
+
+  ]
+}
