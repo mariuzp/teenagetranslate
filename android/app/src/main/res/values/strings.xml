@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">teenagetranslate</string>
+    <string name="title_activity_main">teenagetranslate</string>
+    <string name="package_name">com.teenagetranslate.app</string>
+    <string name="custom_url_scheme">com.teenagetranslate.app</string>
+</resources>

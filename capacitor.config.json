@@ -1,0 +1,20 @@
+{
+  "appId": "com.teenagetranslate.app",
+  "appName": "TeenSpeak Translator",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#3B82F6",
+      "showSpinner": true,
+      "spinnerColor": "#FFFFFF"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#3B82F6"
+    }
+  }
+}
