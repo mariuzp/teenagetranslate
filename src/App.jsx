@@ -1,27 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import slangData from './slang.json'
+import { getSlangDefinition } from './utils/slangService'
 import './index.css'
 
-// Normalize slang data so we can accept both
-// { term, translation } or { phrase, meaning }
-// and either { slang: [...] } or raw [...]
-const getNormalizedSlangList = (raw) => {
-  const list = Array.isArray(raw?.slang) ? raw.slang : (Array.isArray(raw) ? raw : [])
-  return list
-    .map((item) => {
-      const term = (item.term || item.phrase || '').trim()
-      const translation = (item.translation || item.meaning || '').trim()
-      if (!term || !translation) return null
-      return {
-        term,
-        translation,
-        context: item.context || '',
-        example: item.example || '',
-        category: item.category || undefined,
-      }
-    })
-    .filter(Boolean)
-}
+
 
 function App() {
   const [inputText, setInputText] = useState('')
@@ -30,6 +11,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [history, setHistory] = useState([])
   const [wordOfTheDay, setWordOfTheDay] = useState(null)
+  const [translationSource, setTranslationSource] = useState('')
+  const [translationExample, setTranslationExample] = useState('')
   
   // Voice recording states
   const [isRecording, setIsRecording] = useState(false)
@@ -42,9 +25,6 @@ function App() {
   const audioChunksRef = useRef([])
   const recordingIntervalRef = useRef(null)
 
-  // Prepare normalized slang list once
-  const normalizedSlang = getNormalizedSlangList(slangData)
-
   // Load history from localStorage on component mount
   useEffect(() => {
     try {
@@ -56,15 +36,13 @@ function App() {
       console.warn('Could not load history:', error)
     }
     
-    // Set word of the day (randomly selected from normalized slang data)
-    try {
-      if (normalizedSlang && normalizedSlang.length > 0) {
-        const randomIndex = Math.floor(Math.random() * normalizedSlang.length)
-        setWordOfTheDay(normalizedSlang[randomIndex])
-      }
-    } catch (error) {
-      console.warn('Could not set word of day:', error)
-    }
+    // Set word of the day (simple example for now)
+    setWordOfTheDay({
+      term: 'rizz',
+      translation: 'Charisma or charm, especially with romantic appeal',
+      context: 'positive',
+      example: 'He has mad rizz!'
+    })
   }, [])
 
   // Save history to localStorage whenever it changes
@@ -134,56 +112,49 @@ function App() {
     }
   }
 
-  const translateWithDictionary = (text) => {
-    const lowerText = text.toLowerCase()
-    let translatedText = text
-    let foundSlang = []
-    
-    normalizedSlang.forEach(slang => {
-      const regex = new RegExp(`\\b${slang.term}\\b`, 'gi')
-      if (regex.test(lowerText)) {
-        foundSlang.push(slang)
-        translatedText = translatedText.replace(regex, slang.translation)
+  const translateWithSlangService = async (text) => {
+    try {
+      // Split text into words and look up each potential slang term
+      const words = text.toLowerCase().split(/\s+/)
+      let translatedText = text
+      let foundSlang = []
+      let hasSlang = false
+      
+      // Look up each word to see if it's slang
+      for (const word of words) {
+        const cleanWord = word.replace(/[^\w]/g, '') // Remove punctuation
+        if (cleanWord.length > 2) { // Only look up words longer than 2 characters
+          const slangDef = await getSlangDefinition(cleanWord)
+          if (slangDef) {
+            foundSlang.push(slangDef)
+            hasSlang = true
+            
+            // Replace the word in the text (case-insensitive)
+            const regex = new RegExp(`\\b${cleanWord}\\b`, 'gi')
+            translatedText = translatedText.replace(regex, slangDef.translation)
+          }
+        }
       }
-    })
-    
-    // Make the translation more natural and parent-friendly
-    if (foundSlang.length > 0) {
-      // Replace common teen phrases with more natural equivalents
-      translatedText = translatedText
-        .replace(/\b(bro|bruh)\b/gi, 'He')
-        .replace(/\b(so we|then we)\b/gi, 'so we')
-        .replace(/\b(acting|being)\b/gi, 'seemed')
-        .replace(/\b(very or extremely|really)\b/gi, 'very')
-        .replace(/\b(especially with romantic appeal)\b/gi, '')
-        .replace(/\b(successfully attracted or got someone's attention)\b/gi, 'got their attention')
-        .replace(/\b(phone numbers or contact information)\b/gi, 'phone numbers')
-        .replace(/\b(shopping center)\b/gi, 'mall')
-        .replace(/\b(embarrassing or awkward)\b/gi, 'embarrassing')
-        .replace(/\b(leave or depart)\b/gi, 'left')
-        .replace(/\b(charisma or charm)\b/gi, 'charm')
-        .replace(/\b(okay, sure, or agreement)\b/gi, 'okay')
-        .replace(/\b(not gonna lie)\b/gi, 'honestly')
-        .replace(/\b(secretly or quietly)\b/gi, 'secretly')
-        .replace(/\b(obviously or very much)\b/gi, 'obviously')
-        .replace(/\b(suspicious or questionable)\b/gi, 'suspicious')
-        .replace(/\b(feeling or atmosphere)\b/gi, 'vibe')
-        .replace(/\b(relatable feeling or situation)\b/gi, 'same')
-        .replace(/\b(show off or brag)\b/gi, 'showing off')
-        .replace(/\b(bitter or upset)\b/gi, 'upset')
-        .replace(/\b(aware of social issues)\b/gi, 'socially aware')
-        .replace(/\b(want to)\b/gi, 'want to')
-        .replace(/\b(going to)\b/gi, 'going to')
-        .replace(/\b(though or however)\b/gi, 'though')
       
-      // Clean up any double spaces
-      translatedText = translatedText.replace(/\s+/g, ' ')
+      // Clean up the translation
+      if (hasSlang) {
+        // Make the translation more natural and parent-friendly
+        translatedText = translatedText
+          .replace(/\b(bro|bruh)\b/gi, 'He')
+          .replace(/\b(so we|then we)\b/gi, 'so we')
+          .replace(/\b(acting|being)\b/gi, 'seemed')
+          .replace(/\s+/g, ' ') // Clean up double spaces
+          .trim()
+        
+        // Capitalize first letter
+        translatedText = translatedText.charAt(0).toUpperCase() + translatedText.slice(1)
+      }
       
-      // Capitalize first letter
-      translatedText = translatedText.charAt(0).toUpperCase() + translatedText.slice(1)
+      return { translatedText, foundSlang, hasSlang }
+    } catch (error) {
+      console.error('Slang service translation error:', error)
+      return { translatedText: text, foundSlang: [], hasSlang: false }
     }
-    
-    return { translatedText, foundSlang }
   }
 
   const translateWithAI = async (text) => {
@@ -243,20 +214,31 @@ function App() {
     
     setIsLoading(true)
     
+    // Clear previous translation details
+    setTranslationSource('')
+    setTranslationExample('')
+    
     try {
-      // First try dictionary translation
-      const dictResult = translateWithDictionary(inputText)
+      // First try slang service translation (local + Urban Dictionary)
+      const slangResult = await translateWithSlangService(inputText)
       
-      if (dictResult.foundSlang.length > 0) {
-        // Use dictionary translation
-        setTranslation(dictResult.translatedText)
-        setContext(detectTone(dictResult.translatedText))
+      if (slangResult.hasSlang) {
+        // Use slang service translation
+        setTranslation(slangResult.translatedText)
+        setContext(detectTone(slangResult.translatedText))
+        
+        // Set source and example from slang service
+        const firstSlang = slangResult.foundSlang[0]
+        setTranslationSource(firstSlang.source === 'urban-dictionary' ? 'Urban Dictionary' : 'Local Dictionary')
+        setTranslationExample(firstSlang.example || '')
       } else {
-        // Fallback to AI translation
+        // Fallback to AI translation if no slang found
         try {
           const aiResult = await translateWithAI(inputText)
           setTranslation(aiResult.translation)
           setContext(aiResult.context)
+          setTranslationSource('OpenAI AI')
+          setTranslationExample('')
         } catch (aiError) {
           // Better error handling with specific messages
           let errorMessage = 'AI translation unavailable'
@@ -285,8 +267,8 @@ function App() {
       const newHistoryItem = {
         id: Date.now(),
         original: inputText,
-        translation: translation || dictResult.translatedText,
-        context: context || detectTone(dictResult.translatedText),
+        translation: translation || slangResult.translatedText,
+        context: context || detectTone(slangResult.translatedText),
         timestamp: new Date().toLocaleString()
       }
       
@@ -532,6 +514,34 @@ function App() {
                     <p className="text-blue-800">{context}</p>
                   </div>
                 </div>
+                
+                {/* Translation Source */}
+                {translationSource && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Source:
+                    </label>
+                    <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                      <p className="text-green-800 text-sm">
+                        📚 {translationSource}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Translation Example */}
+                {translationExample && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Example Usage:
+                    </label>
+                    <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
+                      <p className="text-purple-800 text-sm italic">
+                        "{translationExample}"
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

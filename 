@@ -1,0 +1,347 @@
+[1mdiff --git a/android/build.gradle b/android/build.gradle[m
+[1mindex f1b3b0e..0628eed 100644[m
+[1m--- a/android/build.gradle[m
+[1m+++ b/android/build.gradle[m
+[36m@@ -7,7 +7,7 @@[m [mbuildscript {[m
+         mavenCentral()[m
+     }[m
+     dependencies {[m
+[31m-        classpath 'com.android.tools.build:gradle:8.7.2'[m
+[32m+[m[32m        classpath 'com.android.tools.build:gradle:8.12.2'[m
+         classpath 'com.google.gms:google-services:4.4.2'[m
+ [m
+         // NOTE: Do not place your application dependencies here; they belong[m
+[1mdiff --git a/android/gradle/wrapper/gradle-wrapper.properties b/android/gradle/wrapper/gradle-wrapper.properties[m
+[1mindex c1d5e01..ed4c299 100644[m
+[1m--- a/android/gradle/wrapper/gradle-wrapper.properties[m
+[1m+++ b/android/gradle/wrapper/gradle-wrapper.properties[m
+[36m@@ -1,6 +1,6 @@[m
+ distributionBase=GRADLE_USER_HOME[m
+ distributionPath=wrapper/dists[m
+[31m-distributionUrl=https\://services.gradle.org/distributions/gradle-8.11.1-all.zip[m
+[32m+[m[32mdistributionUrl=https\://services.gradle.org/distributions/gradle-8.13-all.zip[m
+ networkTimeout=10000[m
+ validateDistributionUrl=true[m
+ zipStoreBase=GRADLE_USER_HOME[m
+[1mdiff --git a/build-apk.bat b/build-apk.bat[m
+[1mnew file mode 100644[m
+[1mindex 0000000..447b3e1[m
+[1m--- /dev/null[m
+[1m+++ b/build-apk.bat[m
+[36m@@ -0,0 +1,42 @@[m
+[32m+[m[32m@echo off[m
+[32m+[m[32mecho 🚀 Building TeenSpeak Translator APK...[m
+[32m+[m[32mecho.[m
+[32m+[m
+[32m+[m[32mecho 📱 Building web assets...[m
+[32m+[m[32mcall npm run build[m
+[32m+[m[32mif %errorlevel% neq 0 ([m
+[32m+[m[32m    echo ❌ Build failed![m
+[32m+[m[32m    pause[m
+[32m+[m[32m    exit /b 1[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mecho 🔄 Syncing with Android...[m
+[32m+[m[32mcall npx cap sync android[m
+[32m+[m[32mif %errorlevel% neq 0 ([m
+[32m+[m[32m    echo ❌ Sync failed![m
+[32m+[m[32m    pause[m
+[32m+[m[32m    exit /b 1[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mecho 🏗️ Building Android APK...[m
+[32m+[m[32mcd android[m
+[32m+[m[32mcall .\gradlew assembleDebug[m
+[32m+[m[32mif %errorlevel% neq 0 ([m
+[32m+[m[32m    echo ❌ APK build failed![m
+[32m+[m[32m    cd ..[m
+[32m+[m[32m    pause[m
+[32m+[m[32m    exit /b 1[m
+[32m+[m[32m)[m
+[32m+[m
+[32m+[m[32mcd ..[m
+[32m+[m[32mecho.[m
+[32m+[m[32mecho ✅ APK Build Complete![m
+[32m+[m[32mecho 📱 Your APK is located at:[m
+[32m+[m[32mecho    android\app\build\outputs\apk\debug\app-debug.apk[m
+[32m+[m[32mecho.[m
+[32m+[m[32mecho 🎯 To install on your phone:[m
+[32m+[m[32mecho    1. Copy the APK to your phone[m
+[32m+[m[32mecho    2. Enable "Install from unknown sources" in settings[m
+[32m+[m[32mecho    3. Tap the APK file to install[m
+[32m+[m[32mecho.[m
+[32m+[m[32mpause[m
+[1mdiff --git a/build-apk.ps1 b/build-apk.ps1[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b3bc2e4[m
+[1m--- /dev/null[m
+[1m+++ b/build-apk.ps1[m
+[36m@@ -0,0 +1,41 @@[m
+[32m+[m[32mWrite-Host "🚀 Building TeenSpeak Translator APK..." -ForegroundColor Green[m
+[32m+[m[32mWrite-Host ""[m
+[32m+[m
+[32m+[m[32mWrite-Host "📱 Building web assets..." -ForegroundColor Yellow[m
+[32m+[m[32mnpm run build[m
+[32m+[m[32mif ($LASTEXITCODE -ne 0) {[m
+[32m+[m[32m    Write-Host "❌ Build failed!" -ForegroundColor Red[m
+[32m+[m[32m    Read-Host "Press Enter to continue"[m
+[32m+[m[32m    exit 1[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mWrite-Host "🔄 Syncing with Android..." -ForegroundColor Yellow[m
+[32m+[m[32mnpx cap sync android[m
+[32m+[m[32mif ($LASTEXITCODE -ne 0) {[m
+[32m+[m[32m    Write-Host "❌ Sync failed!" -ForegroundColor Red[m
+[32m+[m[32m    Read-Host "Press Enter to continue"[m
+[32m+[m[32m    exit 1[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mWrite-Host "🏗️ Building Android APK..." -ForegroundColor Yellow[m
+[32m+[m[32mSet-Location android[m
+[32m+[m[32m.\gradlew assembleDebug[m
+[32m+[m[32mif ($LASTEXITCODE -ne 0) {[m
+[32m+[m[32m    Write-Host "❌ APK build failed!" -ForegroundColor Red[m
+[32m+[m[32m    Set-Location ..[m
+[32m+[m[32m    Read-Host "Press Enter to continue"[m
+[32m+[m[32m    exit 1[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mSet-Location ..[m
+[32m+[m[32mWrite-Host ""[m
+[32m+[m[32mWrite-Host "✅ APK Build Complete!" -ForegroundColor Green[m
+[32m+[m[32mWrite-Host "📱 Your APK is located at:" -ForegroundColor Cyan[m
+[32m+[m[32mWrite-Host "   android\app\build\outputs\apk\debug\app-debug.apk" -ForegroundColor White[m
+[32m+[m[32mWrite-Host ""[m
+[32m+[m[32mWrite-Host "🎯 To install on your phone:" -ForegroundColor Cyan[m
+[32m+[m[32mWrite-Host "   1. Copy the APK to your phone" -ForegroundColor White[m
+[32m+[m[32mWrite-Host "   2. Enable 'Install from unknown sources' in settings" -ForegroundColor White[m
+[32m+[m[32mWrite-Host "   3. Tap the APK file to install" -ForegroundColor White[m
+[32m+[m[32mWrite-Host ""[m
+[32m+[m[32mRead-Host "Press Enter to continue"[m
+[1mdiff --git a/ios/App/Podfile b/ios/App/Podfile[m
+[1mindex bb7762a..53f7c83 100644[m
+[1m--- a/ios/App/Podfile[m
+[1m+++ b/ios/App/Podfile[m
+[36m@@ -11,7 +11,10 @@[m [minstall! 'cocoapods', :disable_input_output_paths => true[m
+ def capacitor_pods[m
+   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'[m
+   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'[m
+[31m-[m
+[32m+[m[32m  pod 'CapacitorDevice', :path => '../../node_modules/@capacitor/device'[m
+[32m+[m[32m  pod 'CapacitorHaptics', :path => '../../node_modules/@capacitor/haptics'[m
+[32m+[m[32m  pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'[m
+[32m+[m[32m  pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'[m
+ end[m
+ [m
+ target 'App' do[m
+[1mdiff --git a/src/App.jsx b/src/App.jsx[m
+[1mindex ca24b71..1636746 100644[m
+[1m--- a/src/App.jsx[m
+[1m+++ b/src/App.jsx[m
+[36m@@ -1,27 +1,8 @@[m
+ import { useState, useEffect, useRef } from 'react'[m
+[31m-import slangData from './slang.json'[m
+[32m+[m[32mimport { getSlangDefinition } from './utils/slangService'[m
+ import './index.css'[m
+ [m
+[31m-// Normalize slang data so we can accept both[m
+[31m-// { term, translation } or { phrase, meaning }[m
+[31m-// and either { slang: [...] } or raw [...][m
+[31m-const getNormalizedSlangList = (raw) => {[m
+[31m-  const list = Array.isArray(raw?.slang) ? raw.slang : (Array.isArray(raw) ? raw : [])[m
+[31m-  return list[m
+[31m-    .map((item) => {[m
+[31m-      const term = (item.term || item.phrase || '').trim()[m
+[31m-      const translation = (item.translation || item.meaning || '').trim()[m
+[31m-      if (!term || !translation) return null[m
+[31m-      return {[m
+[31m-        term,[m
+[31m-        translation,[m
+[31m-        context: item.context || '',[m
+[31m-        example: item.example || '',[m
+[31m-        category: item.category || undefined,[m
+[31m-      }[m
+[31m-    })[m
+[31m-    .filter(Boolean)[m
+[31m-}[m
+[32m+[m
+ [m
+ function App() {[m
+   const [inputText, setInputText] = useState('')[m
+[36m@@ -30,6 +11,8 @@[m [mfunction App() {[m
+   const [isLoading, setIsLoading] = useState(false)[m
+   const [history, setHistory] = useState([])[m
+   const [wordOfTheDay, setWordOfTheDay] = useState(null)[m
+[32m+[m[32m  const [translationSource, setTranslationSource] = useState('')[m
+[32m+[m[32m  const [translationExample, setTranslationExample] = useState('')[m
+   [m
+   // Voice recording states[m
+   const [isRecording, setIsRecording] = useState(false)[m
+[36m@@ -42,9 +25,6 @@[m [mfunction App() {[m
+   const audioChunksRef = useRef([])[m
+   const recordingIntervalRef = useRef(null)[m
+ [m
+[31m-  // Prepare normalized slang list once[m
+[31m-  const normalizedSlang = getNormalizedSlangList(slangData)[m
+[31m-[m
+   // Load history from localStorage on component mount[m
+   useEffect(() => {[m
+     try {[m
+[36m@@ -56,15 +36,13 @@[m [mfunction App() {[m
+       console.warn('Could not load history:', error)[m
+     }[m
+     [m
+[31m-    // Set word of the day (randomly selected from normalized slang data)[m
+[31m-    try {[m
+[31m-      if (normalizedSlang && normalizedSlang.length > 0) {[m
+[31m-        const randomIndex = Math.floor(Math.random() * normalizedSlang.length)[m
+[31m-        setWordOfTheDay(normalizedSlang[randomIndex])[m
+[31m-      }[m
+[31m-    } catch (error) {[m
+[31m-      console.warn('Could not set word of day:', error)[m
+[31m-    }[m
+[32m+[m[32m    // Set word of the day (simple example for now)[m
+[32m+[m[32m    setWordOfTheDay({[m
+[32m+[m[32m      term: 'rizz',[m
+[32m+[m[32m      translation: 'Charisma or charm, especially with romantic appeal',[m
+[32m+[m[32m      context: 'positive',[m
+[32m+[m[32m      example: 'He has mad rizz!'[m
+[32m+[m[32m    })[m
+   }, [])[m
+ [m
+   // Save history to localStorage whenever it changes[m
+[36m@@ -134,56 +112,49 @@[m [mfunction App() {[m
+     }[m
+   }[m
+ [m
+[31m-  const translateWithDictionary = (text) => {[m
+[31m-    const lowerText = text.toLowerCase()[m
+[31m-    let translatedText = text[m
+[31m-    let foundSlang = [][m
+[31m-    [m
+[31m-    normalizedSlang.forEach(slang => {[m
+[31m-      const regex = new RegExp(`\\b${slang.term}\\b`, 'gi')[m
+[31m-      if (regex.test(lowerText)) {[m
+[31m-        foundSlang.push(slang)[m
+[31m-        translatedText = translatedText.replace(regex, slang.translation)[m
+[32m+[m[32m  const translateWithSlangService = async (text) => {[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      // Split text into words and look up each potential slang term[m
+[32m+[m[32m      const words = text.toLowerCase().split(/\s+/)[m
+[32m+[m[32m      let translatedText = text[m
+[32m+[m[32m      let foundSlang = [][m
+[32m+[m[32m      let hasSlang = false[m
+[32m+[m[41m      [m
+[32m+[m[32m      // Look up each word to see if it's slang[m
+[32m+[m[32m      for (const word of words) {[m
+[32m+[m[32m        const cleanWord = word.replace(/[^\w]/g, '') // Remove punctuation[m
+[32m+[m[32m        if (cleanWord.length > 2) { // Only look up words longer than 2 characters[m
+[32m+[m[32m          const slangDef = await getSlangDefinition(cleanWord)[m
+[32m+[m[32m          if (slangDef) {[m
+[32m+[m[32m            foundSlang.push(slangDef)[m
+[32m+[m[32m            hasSlang = true[m
+[32m+[m[41m            [m
+[32m+[m[32m            // Replace the word in the text (case-insensitive)[m
+[32m+[m[32m            const regex = new RegExp(`\\b${cleanWord}\\b`, 'gi')[m
+[32m+[m[32m            translatedText = translatedText.replace(regex, slangDef.translation)[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }[m
+       }[m
+[31m-    })[m
+[31m-    [m
+[31m-    // Make the translation more natural and parent-friendly[m
+[31m-    if (foundSlang.length > 0) {[m
+[31m-      // Replace common teen phrases with more natural equivalents[m
+[31m-      translatedText = translatedText[m
+[31m-        .replace(/\b(bro|bruh)\b/gi, 'He')[m
+[31m-        .replace(/\b(so we|then we)\b/gi, 'so we')[m
+[31m-        .replace(/\b(acting|being)\b/gi, 'seemed')[m
+[31m-        .replace(/\b(very or extremely|really)\b/gi, 'very')[m
+[31m-        .replace(/\b(especially with romantic appeal)\b/gi, '')[m
+[31m-        .replace(/\b(successfully attracted or got someone's attention)\b/gi, 'got their attention')[m
+[31m-        .replace(/\b(phone numbers or contact information)\b/gi, 'phone numbers')[m
+[31m-        .replace(/\b(shopping center)\b/gi, 'mall')[m
+[31m-        .replace(/\b(embarrassing or awkward)\b/gi, 'embarrassing')[m
+[31m-        .replace(/\b(leave or depart)\b/gi, 'left')[m
+[31m-        .replace(/\b(charisma or charm)\b/gi, 'charm')[m
+[31m-        .replace(/\b(okay, sure, or agreement)\b/gi, 'okay')[m
+[31m-        .replace(/\b(not gonna lie)\b/gi, 'honestly')[m
+[31m-        .replace(/\b(secretly or quietly)\b/gi, 'secretly')[m
+[31m-        .replace(/\b(obviously or very much)\b/gi, 'obviously')[m
+[31m-        .replace(/\b(suspicious or questionable)\b/gi, 'suspicious')[m
+[31m-        .replace(/\b(feeling or atmosphere)\b/gi, 'vibe')[m
+[31m-        .replace(/\b(relatable feeling or situation)\b/gi, 'same')[m
+[31m-        .replace(/\b(show off or brag)\b/gi, 'showing off')[m
+[31m-        .replace(/\b(bitter or upset)\b/gi, 'upset')[m
+[31m-        .replace(/\b(aware of social issues)\b/gi, 'socially aware')[m
+[31m-        .replace(/\b(want to)\b/gi, 'want to')[m
+[31m-        .replace(/\b(going to)\b/gi, 'going to')[m
+[31m-        .replace(/\b(though or however)\b/gi, 'though')[m
+       [m
+[31m-      // Clean up any double spaces[m
+[31m-      translatedText = translatedText.replace(/\s+/g, ' ')[m
+[32m+[m[32m      // Clean up the translation[m
+[32m+[m[32m      if (hasSlang) {[m
+[32m+[m[32m        // Make the translation more natural and parent-friendly[m
+[32m+[m[32m        translatedText = translatedText[m
+[32m+[m[32m          .replace(/\b(bro|bruh)\b/gi, 'He')[m
+[32m+[m[32m          .replace(/\b(so we|then we)\b/gi, 'so we')[m
+[32m+[m[32m          .replace(/\b(acting|being)\b/gi, 'seemed')[m
+[32m+[m[32m          .replace(/\s+/g, ' ') // Clean up double spaces[m
+[32m+[m[32m          .trim()[m
+[32m+[m[41m        [m
+[32m+[m[32m        // Capitalize first letter[m
+[32m+[m[32m        translatedText = translatedText.charAt(0).toUpperCase() + translatedText.slice(1)[m
+[32m+[m[32m      }[m
+       [m
+[31m-      // Capitalize first letter[m
+[31m-      translatedText = translatedText.charAt(0).toUpperCase() + translatedText.slice(1)[m
+[32m+[m[32m      return { translatedText, foundSlang, hasSlang }[m
+[32m+[m[32m    } catch (error) {[m
+[32m+[m[32m      console.error('Slang service translation error:', error)[m
+[32m+[m[32m      return { translatedText: text, foundSlang: [], hasSlang: false }[m
+     }[m
+[31m-    [m
+[31m-    return { translatedText, foundSlang }[m
+   }[m
+ [m
+   const translateWithAI = async (text) => {[m
+[36m@@ -243,20 +214,31 @@[m [mfunction App() {[m
+     [m
+     setIsLoading(true)[m
+     [m
+[32m+[m[32m    // Clear previous translation details[m
+[32m+[m[32m    setTranslationSource('')[m
+[32m+[m[32m    setTranslationExample('')[m
+[32m+[m[41m    [m
+     try {[m
+[31m-      // First try dictionary translation[m
+[31m-      const dictResult = translateWithDictionary(inputText)[m
+[32m+[m[32m      // First try slang service translation (local + Urban Dictionary)[m
+[32m+[m[32m      const slangResult = await translateWithSlangService(inputText)[m
+       [m
+[31m-      if (dictResult.foundSlang.length > 0) {[m
+[31m-        // Use dictionary translation[m
+[31m-        setTranslation(dictResult.translatedText)[m
+[31m-        setContext(detectTone(dictResult.translatedText))[m
+[32m+[m[32m      if (slangResult.hasSlang) {[m
+[32m+[m[32m        // Use slang service translation[m
+[32m+[m[32m        setTranslation(slangResult.translatedText)[m
+[32m+[m[32m        setContext(detectTone(slangResult.translatedText))[m
+[32m+[m[41m        [m
+[32m+[m[32m        // Set source and example from slang service[m
+[32m+[m[32m        const firstSlang = slangResult.foundSlang[0][m
+[32m+[m[32m        setTranslationSource(firstSlang.source === 'urban-dictionary' ? 'Urban Dictionary' : 'Local Dictionary')[m
+[32m+[m[32m        setTranslationExample(firstSlang.example || '')[m
+       } else {[m
+[31m-        // Fallback to AI translation[m
+[32m+[m[32m        // Fallback to AI translation if no slang found[m
+         try {[m
+           const aiResult = await translateWithAI(inputText)[m
+           setTranslation(aiResult.translation)[m
+           setContext(aiResult.context)[m
+[32m+[m[32m          setTranslationSource('OpenAI AI')[m
+[32m+[m[32m          setTranslationExample('')[m
+         } catch (aiError) {[m
+           // Better error handling with specific messages[m
+           let errorMessage = 
