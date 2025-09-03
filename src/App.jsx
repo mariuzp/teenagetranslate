@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { getSlangDefinition } from './utils/slangService'
 import './index.css'
 
 
@@ -63,105 +62,17 @@ function App() {
     }
   }, [])
 
-  const detectTone = (text) => {
-    const lowerText = text.toLowerCase()
-    
-    // Positive indicators
-    const positiveWords = ['lit', 'slay', 'amazing', 'love', 'best', 'awesome', 'fire', 'vibes', 'rizz', 'pulled']
-    // Negative indicators  
-    const negativeWords = ['sus', 'cap', 'salty', 'hate', 'worst', 'terrible', 'bad', 'cringe']
-    // Warning indicators
-    const warningWords = ['careful', 'watch', 'danger', 'warning', 'suspicious', 'sus', 'dipped', 'bounce']
-    // Casual indicators
-    const casualWords = ['bro', 'bruh', 'fr', 'ngl', 'lowkey', 'highkey', 'tho', 'wanna', 'gonna']
-    
-    let positiveCount = 0
-    let negativeCount = 0
-    let warningCount = 0
-    let casualCount = 0
-    
-    positiveWords.forEach(word => {
-      if (lowerText.includes(word)) positiveCount++
-    })
-    
-    negativeWords.forEach(word => {
-      if (lowerText.includes(word)) negativeCount++
-    })
-    
-    warningWords.forEach(word => {
-      if (lowerText.includes(word)) warningCount++
-    })
-    
-    casualWords.forEach(word => {
-      if (lowerText.includes(word)) casualCount++
-    })
-    
-    // More sophisticated tone detection
-    if (warningCount > 0 && (lowerText.includes('sus') || lowerText.includes('dipped') || lowerText.includes('bounce'))) {
-      return 'Warning / cautious situation'
-    } else if (positiveCount > negativeCount && positiveCount > warningCount) {
-      return 'Positive, excited'
-    } else if (negativeCount > positiveCount && negativeCount > warningCount) {
-      return 'Negative, frustrated'
-    } else if (warningCount > positiveCount && warningCount > negativeCount) {
-      return 'Warning, skeptical'
-    } else if (casualCount > 0) {
-      return 'Neutral, casual'
-    } else {
-      return 'Neutral, casual'
-    }
-  }
 
-  const translateWithSlangService = async (text) => {
-    try {
-      // Split text into words and look up each potential slang term
-      const words = text.toLowerCase().split(/\s+/)
-      let translatedText = text
-      let foundSlang = []
-      let hasSlang = false
-      
-      // Look up each word to see if it's slang
-      for (const word of words) {
-        const cleanWord = word.replace(/[^\w]/g, '') // Remove punctuation
-        if (cleanWord.length > 2) { // Only look up words longer than 2 characters
-          const slangDef = await getSlangDefinition(cleanWord)
-          if (slangDef) {
-            foundSlang.push(slangDef)
-            hasSlang = true
-            
-            // Replace the word in the text (case-insensitive)
-            const regex = new RegExp(`\\b${cleanWord}\\b`, 'gi')
-            translatedText = translatedText.replace(regex, slangDef.translation)
-          }
-        }
-      }
-      
-      // Clean up the translation
-      if (hasSlang) {
-        // Make the translation more natural and parent-friendly
-        translatedText = translatedText
-          .replace(/\b(bro|bruh)\b/gi, 'He')
-          .replace(/\b(so we|then we)\b/gi, 'so we')
-          .replace(/\b(acting|being)\b/gi, 'seemed')
-          .replace(/\s+/g, ' ') // Clean up double spaces
-          .trim()
-        
-        // Capitalize first letter
-        translatedText = translatedText.charAt(0).toUpperCase() + translatedText.slice(1)
-      }
-      
-      return { translatedText, foundSlang, hasSlang }
-    } catch (error) {
-      console.error('Slang service translation error:', error)
-      return { translatedText: text, foundSlang: [], hasSlang: false }
-    }
-  }
 
   const translateWithAI = async (text) => {
     try {
       // Debug shortened; core auth remains
       const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+      console.log('AI Translation Debug - API Key exists:', !!apiKey)
+      console.log('AI Translation Debug - API Key length:', apiKey ? apiKey.length : 0)
+      
       if (!apiKey) {
+        console.error('AI Translation Debug - No API key found in environment variables')
         throw new Error('No API key found in environment variables')
       }
       
@@ -190,7 +101,8 @@ function App() {
 
       if (!response.ok) {
         const errorText = await response.text()
-        console.error('API Response error:', response.status, errorText)
+        console.error('AI Translation Debug - API Response error:', response.status, errorText)
+        console.error('AI Translation Debug - Response headers:', response.headers)
         throw new Error(`AI translation failed: ${response.status}`)
       }
 
@@ -242,66 +154,53 @@ function App() {
     setTranslationExample('')
     
     try {
-      // First try AI translation for better quality
-      try {
-        const aiResult = await translateWithAI(inputText)
-        setTranslation(aiResult.translation)
-        setContext(aiResult.context)
-        setTranslationSource('OpenAI AI')
-        setTranslationExample(aiResult.example || '')
-      } catch (aiError) {
-        // Fallback to slang service if AI fails
-        console.warn('AI translation failed, falling back to slang service:', aiError.message)
-        
-        const slangResult = await translateWithSlangService(inputText)
-        
-        if (slangResult.hasSlang) {
-          // Use slang service translation
-          setTranslation(slangResult.translatedText)
-          setContext(detectTone(slangResult.translatedText))
-          
-          // Set source and example from slang service
-          const firstSlang = slangResult.foundSlang[0]
-          setTranslationSource(firstSlang.source === 'urban-dictionary' ? 'Urban Dictionary' : 'Local Dictionary')
-          setTranslationExample(firstSlang.example || '')
-        } else {
-          // Better error handling with specific messages
-          let errorMessage = 'AI translation unavailable'
-          let contextMessage = 'Translation provided without AI enhancement'
-          
-          if (aiError.message.includes('429')) {
-            errorMessage = 'AI quota exceeded - please check your OpenAI account billing'
-            contextMessage = 'OpenAI account needs credits to process requests'
-          } else if (aiError.message.includes('401')) {
-            errorMessage = 'AI authentication failed - please check your API key'
-            contextMessage = 'Invalid or expired OpenAI API key'
-          } else if (aiError.message.includes('insufficient_quota')) {
-            errorMessage = 'AI quota exceeded - please add credits to your OpenAI account'
-            contextMessage = 'OpenAI account has no remaining credits'
-          } else if (aiError.message.includes('No API key')) {
-            errorMessage = 'No OpenAI API key found'
-            contextMessage = 'Please check your .env file configuration'
-          }
-          
-          setTranslation(`Translation: ${inputText} (${errorMessage})`)
-          setContext(contextMessage)
-        }
-      }
+      // Use AI translation only
+      console.log('Translation Debug - Attempting AI translation for:', inputText)
+      const aiResult = await translateWithAI(inputText)
+      console.log('Translation Debug - AI translation successful:', aiResult)
+      
+      setTranslation(aiResult.translation)
+      setContext(aiResult.context)
+      setTranslationSource('OpenAI AI')
+      setTranslationExample(aiResult.example || '')
       
       // Add to history
       const newHistoryItem = {
         id: Date.now(),
         original: inputText,
-        translation: translation,
-        context: context,
+        translation: aiResult.translation,
+        context: aiResult.context,
         timestamp: new Date().toLocaleString()
       }
       
       setHistory(prev => [newHistoryItem, ...prev.slice(0, 9)]) // Keep last 10 items
       
-    } catch (error) {
-      setTranslation('Translation failed. Please try again.')
-      setContext('Error occurred during translation.')
+    } catch (aiError) {
+      // Better error handling with specific messages
+      console.error('AI translation failed:', aiError.message)
+      console.log('Translation Debug - AI Error details:', aiError)
+      
+      let errorMessage = 'AI translation unavailable'
+      let contextMessage = 'Please check your API key and try again'
+      
+      if (aiError.message.includes('429')) {
+        errorMessage = 'AI quota exceeded - please check your OpenAI account billing'
+        contextMessage = 'OpenAI account needs credits to process requests'
+      } else if (aiError.message.includes('401')) {
+        errorMessage = 'AI authentication failed - please check your API key'
+        contextMessage = 'Invalid or expired OpenAI API key'
+      } else if (aiError.message.includes('insufficient_quota')) {
+        errorMessage = 'AI quota exceeded - please add credits to your OpenAI account'
+        contextMessage = 'OpenAI account has no remaining credits'
+      } else if (aiError.message.includes('No API key')) {
+        errorMessage = 'No OpenAI API key found'
+        contextMessage = 'Please check your .env file configuration'
+      }
+      
+      setTranslation(`❌ ${errorMessage}`)
+      setContext(contextMessage)
+      setTranslationSource('Error')
+      setTranslationExample('')
     } finally {
       setIsLoading(false)
     }
@@ -641,10 +540,10 @@ function App() {
       {/* Footer */}
       <div className="text-center mt-12 text-gray-500 text-sm">
         <p>
-          💡 Tip: Use voice recording for quick capture, or type manually. The app now uses AI first for high-quality translations, with slang dictionary as backup.
+          💡 Tip: Use voice recording for quick capture, or type manually. The app uses AI-powered translations for high-quality, parent-friendly explanations.
         </p>
         <p className="mt-1">
-          🚀 AI-powered translations provide better context and parent-friendly explanations.
+          🚀 Powered by OpenAI for accurate teen slang translation with context and examples.
         </p>
       </div>
     </div>
