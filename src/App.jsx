@@ -176,14 +176,14 @@ function App() {
           messages: [
             {
               role: 'system',
-              content: 'You are a helpful translator that converts teen slang into clear, parent-friendly English. Always explain the situation/tone briefly and keep translations natural and easy to understand.'
+              content: 'You are a helpful translator that converts teen slang into clear, parent-friendly English. Format your response exactly like this:\n\nTeen phrase: [original phrase]\nParent translation: [clear parent-friendly translation]\nContext: [brief explanation of the situation/tone]\nExample in use:\nTeen: "[example with teen phrase]"\nParent: "[example with parent translation]"\n\nKeep translations natural, positive, and easy for parents to understand.'
             },
             {
               role: 'user',
-              content: `Translate this teen language into clear parent English and explain the situation/tone briefly: "${text}"`
+              content: `Translate this teen language: "${text}"`
             }
           ],
-          max_tokens: 150,
+          max_tokens: 200,
           temperature: 0.7
         })
       })
@@ -197,12 +197,35 @@ function App() {
       const data = await response.json()
       const aiResponse = data.choices[0].message.content
       
-      // Parse AI response to extract translation and context
-      const lines = aiResponse.split('\n')
-      const translation = lines[0] || aiResponse
-      const context = lines[1] || 'AI translation provided'
+      // Parse AI response to extract structured information
+      const lines = aiResponse.split('\n').filter(line => line.trim())
+      let translation = ''
+      let context = ''
+      let example = ''
       
-      return { translation, context }
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim()
+        if (line.startsWith('Parent translation:')) {
+          translation = line.replace('Parent translation:', '').trim()
+        } else if (line.startsWith('Context:')) {
+          context = line.replace('Context:', '').trim()
+        } else if (line.startsWith('Parent:') && example === '') {
+          example = line.replace('Parent:', '').trim().replace(/"/g, '')
+        }
+      }
+      
+      // Fallback parsing if structured format isn't followed
+      if (!translation) {
+        translation = lines.find(line => line.includes('translation:') || line.includes('means:')) || lines[0] || aiResponse
+        translation = translation.replace(/.*translation:\s*/i, '').replace(/.*means:\s*/i, '').trim()
+      }
+      
+      if (!context) {
+        context = lines.find(line => line.includes('Context:') || line.includes('Used to')) || 'AI translation provided'
+        context = context.replace(/.*Context:\s*/i, '').replace(/.*Used to\s*/i, 'Used to ').trim()
+      }
+      
+      return { translation, context, example }
     } catch (error) {
       console.error('AI translation error:', error)
       throw new Error(`AI translation unavailable: ${error.message}`)
@@ -219,27 +242,29 @@ function App() {
     setTranslationExample('')
     
     try {
-      // First try slang service translation (local + Urban Dictionary)
-      const slangResult = await translateWithSlangService(inputText)
-      
-      if (slangResult.hasSlang) {
-        // Use slang service translation
-        setTranslation(slangResult.translatedText)
-        setContext(detectTone(slangResult.translatedText))
+      // First try AI translation for better quality
+      try {
+        const aiResult = await translateWithAI(inputText)
+        setTranslation(aiResult.translation)
+        setContext(aiResult.context)
+        setTranslationSource('OpenAI AI')
+        setTranslationExample(aiResult.example || '')
+      } catch (aiError) {
+        // Fallback to slang service if AI fails
+        console.warn('AI translation failed, falling back to slang service:', aiError.message)
         
-        // Set source and example from slang service
-        const firstSlang = slangResult.foundSlang[0]
-        setTranslationSource(firstSlang.source === 'urban-dictionary' ? 'Urban Dictionary' : 'Local Dictionary')
-        setTranslationExample(firstSlang.example || '')
-      } else {
-        // Fallback to AI translation if no slang found
-        try {
-          const aiResult = await translateWithAI(inputText)
-          setTranslation(aiResult.translation)
-          setContext(aiResult.context)
-          setTranslationSource('OpenAI AI')
-          setTranslationExample('')
-        } catch (aiError) {
+        const slangResult = await translateWithSlangService(inputText)
+        
+        if (slangResult.hasSlang) {
+          // Use slang service translation
+          setTranslation(slangResult.translatedText)
+          setContext(detectTone(slangResult.translatedText))
+          
+          // Set source and example from slang service
+          const firstSlang = slangResult.foundSlang[0]
+          setTranslationSource(firstSlang.source === 'urban-dictionary' ? 'Urban Dictionary' : 'Local Dictionary')
+          setTranslationExample(firstSlang.example || '')
+        } else {
           // Better error handling with specific messages
           let errorMessage = 'AI translation unavailable'
           let contextMessage = 'Translation provided without AI enhancement'
@@ -267,8 +292,8 @@ function App() {
       const newHistoryItem = {
         id: Date.now(),
         original: inputText,
-        translation: translation || slangResult.translatedText,
-        context: context || detectTone(slangResult.translatedText),
+        translation: translation,
+        context: context,
         timestamp: new Date().toLocaleString()
       }
       
@@ -616,10 +641,10 @@ function App() {
       {/* Footer */}
       <div className="text-center mt-12 text-gray-500 text-sm">
         <p>
-          💡 Tip: Use voice recording for quick capture, or type manually. The app first checks our slang dictionary, then falls back to AI for unknown terms.
+          💡 Tip: Use voice recording for quick capture, or type manually. The app now uses AI first for high-quality translations, with slang dictionary as backup.
         </p>
         <p className="mt-1">
-          🚀 AI-powered translations are now enabled for advanced slang and context analysis.
+          🚀 AI-powered translations provide better context and parent-friendly explanations.
         </p>
       </div>
     </div>
